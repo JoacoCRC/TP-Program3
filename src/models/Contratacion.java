@@ -1,6 +1,8 @@
 package models;
 
-public class Contratacion {
+import java.io.Serializable;
+
+public class Contratacion implements Serializable{
 	private TicketEmpleador ticketEmpleador;
 	private Empleador empleador;
 	private Empleado empleado;
@@ -31,6 +33,12 @@ public class Contratacion {
 
 	public Empleado getEmpleado() {
 		return empleado;
+	}
+
+	@Override
+	public String toString() {
+		return "Contratacion [empleador=" + empleador + ", empleado=" + empleado + ", sueldoAcordado=" + sueldoAcordado
+				+ "]";
 	}
 	
 	

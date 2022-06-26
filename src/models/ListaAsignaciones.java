@@ -1,10 +1,11 @@
 package models;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListaAsignaciones {
+public class ListaAsignaciones implements Serializable{
     private List<Entrevista> list = new ArrayList<>();
     private LocalDate fecha;
 

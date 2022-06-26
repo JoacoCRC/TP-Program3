@@ -1,6 +1,8 @@
 package models.Aspectos;
 
-public interface IAspectos {
+import java.io.Serializable;
+
+public interface IAspectos extends Serializable{
     public double versus(IAspectos a);
 
 }

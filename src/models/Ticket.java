@@ -1,19 +1,17 @@
 package models;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 
-public abstract class Ticket {
+public abstract class Ticket implements Serializable{
 
 	/**
 	 * @aggregation composite
 	 */
 	private FormularioBusqueda formularioBusqueda;
-	private String estado;
+	private transient String estado;
 	private LocalDate fechaAlta;
-
+        private IStateTicket state;
 	public static final String ESTADO_ACTIVO = "ACTIVO";
 	public static final String ESTADO_SUSPENDIDO = "SUSPENDIDO";
 	public static final String ESTADO_CANCELADO = "CANCELADO";
@@ -22,12 +20,20 @@ public abstract class Ticket {
 	public Ticket() {
 		this.estado = ESTADO_ACTIVO;
 		this.fechaAlta = LocalDate.now();
+		this.state=new ActivoState(this);
 		
 	}
+        
+        public IStateTicket getState(){
+            return this.state;
+        }
 
 	public String getEstado() {
 		return estado;
 	}
+        public void setState(IStateTicket state){
+           this.state=state;
+        }
 
 	public void setEstadoFinalizado() {
 		this.estado = ESTADO_FINALIZADO;

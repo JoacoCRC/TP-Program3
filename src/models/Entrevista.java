@@ -1,6 +1,8 @@
 package models;
 
-public class Entrevista {
+import java.io.Serializable;
+
+public class Entrevista implements Serializable{
     private Empleado empleado;
     private Empleador empleador;
     private TicketEmpleador ticketEmpleador;

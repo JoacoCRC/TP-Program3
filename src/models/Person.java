@@ -9,7 +9,7 @@ public abstract class Person extends Usuario {
 	private String type;
 	private double puntaje;
 	private ListaAsignaciones asignaciones = new ListaAsignaciones();
-	private List<Entrevista> elecciones = new ArrayList<>();
+	private transient List<Entrevista> elecciones = new ArrayList<>();
 	protected static final String PERSONA_FISICA = "FISICA";
 	protected static final String PERSONA_JURIDICA = "JURIDICA";
 	
@@ -25,7 +25,6 @@ public abstract class Person extends Usuario {
 	public ListaAsignaciones getAsignaciones() {
 		return asignaciones;
 	}
-
 
 
 	public void setAsignaciones(ListaAsignaciones asignaciones) {

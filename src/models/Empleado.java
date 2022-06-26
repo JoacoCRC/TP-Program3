@@ -11,22 +11,25 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
-public class Empleado extends Person {
+public class Empleado extends Person implements Runnable {
 	private String surname;
 	private String phone;
 	private String dni;
 	private LocalDate bornDate;
 	private TicketEmpleado ticket;
+        private transient BolsaDeTrabajo bolsaDeTrabajo;
+        private int eleccionLocacion=0; 
 
 
 	public Empleado(String username, String password, String name, String surname, String phone, String dni,
-			LocalDate bornDate) {
+			LocalDate bornDate,BolsaDeTrabajo bolsaDeTrabajo) {
 		super(username, password, name, PERSONA_FISICA);
 		this.surname = surname;
 		this.phone = phone;
 		this.dni = dni;
 		this.bornDate = bornDate;
 		this.ticket = new TicketEmpleado();
+                this.bolsaDeTrabajo = bolsaDeTrabajo;
 	}
 
 	@Override
@@ -52,24 +55,28 @@ public class Empleado extends Person {
 	public TicketEmpleado getTicket() {
 		return ticket;
 	}
+        //metodo para elejir locacion en ticketsSimplificados, por defecto HomeOffice
+        public void setEleccionLocacion(int elec){
+            this.eleccionLocacion=elec;
+        }
 
 	public void setTicket(TicketEmpleado ticket) {
 		this.ticket = ticket;
 	}
 	public void cancelarTicket() {
-		if(this.getTicket().getEstado()!=Ticket.ESTADO_CANCELADO && this.getTicket().getEstado()!=Ticket.ESTADO_FINALIZADO) {
-			this.getTicket().setEstadoCancelado();		
+		if(this.getTicket().getState().toString()!="cancelado" && this.getTicket().getState().toString()!="finalizado") {
+			this.getTicket().setState(new CancelarState(this.getTicket()));		
 			this.modificarPuntaje(-1);
 		}
 	}
 	public void suspenderTicket() {
-		if(this.getTicket().getEstado()!=Ticket.ESTADO_CANCELADO && this.getTicket().getEstado()!=Ticket.ESTADO_FINALIZADO) {
-			this.getTicket().setEstadoSuspendido();
+		if(this.getTicket().getState().toString()!= "cancelado" && this.getTicket().getState().toString() != "finalizado") {
+			this.getTicket().setState(new PausaState(this.getTicket()));
 		}
 	}
 	public void activarTicket() {
-		if(this.getTicket().getEstado()!=Ticket.ESTADO_CANCELADO && this.getTicket().getEstado()!=Ticket.ESTADO_FINALIZADO) {
-			this.getTicket().setEstadoActivo();
+		if(this.getTicket().getState().toString()!= "cancelado" && this.getTicket().getState().toString() != "finalizado") {
+			this.getTicket().setState(new ActivoState(this.getTicket()));
 		}
 	}
 
@@ -82,6 +89,19 @@ public class Empleado extends Person {
 		ticket.setFormulario(fb);
 	
 	}
+        
+        
+        @Override
+        public void run(){
+            int i=0;
+            TicketSimplificado aux=null;
+            while(i<3 && aux==null ){
+                aux = bolsaDeTrabajo.removeTicket(eleccionLocacion,i); //Elijo ticket, arbitrariamente los primeros tres 
+            }
+            if(i<3){
+                notifyObservers();
+            }
+        }
 
 
 	@Override

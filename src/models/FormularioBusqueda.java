@@ -1,17 +1,10 @@
 package models;
 
-import models.Aspectos.DecoratorAspecto;
-import models.Aspectos.DecoratorAspectoPeso;
-import models.Aspectos.IAspectos;
-import models.Aspectos.CargaHoraria.CargaHoraria;
-import models.Aspectos.Estudios.Estudios;
-import models.Aspectos.Experiencia.Experiencia;
-import models.Aspectos.Locacion.Locacion;
-import models.Aspectos.RangoEtario.RangoEtario;
-import models.Aspectos.Remuneracion.Remuneracion;
-import models.Aspectos.TipoPuesto.TipoPuesto;
+import java.io.Serializable;
 
-public class FormularioBusqueda {
+import models.Aspectos.IAspectos;
+
+public class FormularioBusqueda implements Serializable{
 
 	private IAspectos locacion;
 	private IAspectos tipoPuesto;

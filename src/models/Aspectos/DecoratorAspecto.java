@@ -1,8 +1,8 @@
 package models.Aspectos;
 
-import models.Aspectos.IAspectos;
+import java.io.Serializable;
 
-public abstract class DecoratorAspecto implements IAspectos  {
+public abstract class DecoratorAspecto implements IAspectos {
 
 	protected IAspectos encapsulado;
 
